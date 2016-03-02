@@ -2,12 +2,8 @@
 
 namespace Laravel\Socialite\Two;
 
-class PinterestProvider extends AbstractProvider implements ProviderInterface
+class MediumProvider extends AbstractProvider implements ProviderInterface
 {
-    protected $fields = [
-        'id', 'username', 'url', 'first_name', 'last_name', 'bio', 'image',
-    ];
-
     /**
      * Get the authentication URL for the provider.
      *
@@ -16,7 +12,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://api.pinterest.com/oauth/', $state);
+        return $this->buildAuthUrlFromBase('https://medium.com/m/oauth/authorize', $state);
     }
 
     /**
@@ -26,7 +22,7 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.pinterest.com/v1/oauth/token';
+        return 'https://api.medium.com/v1/tokens';
     }
 
     /**
@@ -42,7 +38,6 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get($url, [
             'query' => [
                 'access_token' => $token,
-                'fields' => implode(',', $this->fields),
             ],
         ]);
 
@@ -74,5 +69,10 @@ class PinterestProvider extends AbstractProvider implements ProviderInterface
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    protected function parseAccessToken($body)
+    {
+        return json_decode($body);
     }
 }
