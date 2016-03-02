@@ -33,11 +33,11 @@ class MediumProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $url = 'https://api.pinterest.com/v1/me';
+        $url = 'https://api.medium.com/v1/me';
 
         $response = $this->getHttpClient()->get($url, [
-            'query' => [
-                'access_token' => $token,
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
             ],
         ]);
 
@@ -57,10 +57,10 @@ class MediumProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['username'],
-            'name' => $user['first_name'].' '.$user['last_name'],
+            'name' => $user['name'],
             'email' => null,
-            'avatar' => $user['image']['60x60']['url'],
-            'avatar_original' => null,
+            'avatar' => $user['imageUrl'],
+            'avatar_original' => $user['imageUrl'],
         ]);
     }
 
