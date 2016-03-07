@@ -37,7 +37,7 @@ class MediumProvider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->get($url, [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer ' . $token['access_token'],
             ],
         ]);
 
@@ -73,6 +73,6 @@ class MediumProvider extends AbstractProvider implements ProviderInterface
 
     protected function parseAccessToken($body)
     {
-        return json_decode($body);
+        return json_decode($body, true);
     }
 }
