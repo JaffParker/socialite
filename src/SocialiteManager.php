@@ -5,6 +5,7 @@ namespace Laravel\Socialite;
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
 use Laravel\Socialite\One\TwitterProvider;
+use League\OAuth1\Client\Server\Tumblr as TumblrServer;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -158,6 +159,20 @@ class SocialiteManager extends Manager implements Contracts\Factory
 
         return new TwitterProvider(
             $this->app['request'], new TwitterServer($this->formatConfig($config))
+        );
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\One\AbstractProvider
+     */
+    protected function createTumblrDriver()
+    {
+        $config = $this->app['config']['services.tumblr'];
+
+        return new TwitterProvider(
+            $this->app['request'], new TumblrServer($this->formatConfig($config))
         );
     }
 
