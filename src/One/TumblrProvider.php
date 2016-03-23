@@ -16,7 +16,7 @@ class TumblrProvider extends AbstractProvider
         }
 
         $user = $this->server->getUserDetails($token = $this->getToken());
-dd($user);
+
         $extraDetails = [
             'location' => $user->location,
             'description' => $user->description,
@@ -28,7 +28,7 @@ dd($user);
         return $instance->map([
             'id' => $user->uid, 'nickname' => $user->nickname,
             'name' => $user->name, 'email' => $user->email, 'avatar' => $user->imageUrl,
-            'avatar_original' => str_replace('_normal', '', $user->imageUrl),
+            'avatar_original' => $user->imageUrl,
         ]);
     }
 }
