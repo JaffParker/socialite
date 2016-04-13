@@ -26,7 +26,7 @@ class TumblrProvider extends AbstractProvider
                 ->setToken($token->getIdentifier(), $token->getSecret());
 
         return $instance->map([
-            'id' => $user->name, 'nickname' => $user->nickname,
+            'id' => $user->nickname, 'nickname' => $user->nickname,
             'name' => $user->name, 'email' => $user->email, 'avatar' => $user->imageUrl,
             'avatar_original' => $user->imageUrl,
         ]);
