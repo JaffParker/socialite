@@ -23,6 +23,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         'email',
     ];
 
+    protected $parameters = [
+        'access_type' => 'offline',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -54,6 +58,11 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         ]);
 
         return $this->parseAccessToken($response->getBody());
+    }
+
+    public function parseAccessToken($body)
+    {
+        return json_decode($body, true);
     }
 
     /**
