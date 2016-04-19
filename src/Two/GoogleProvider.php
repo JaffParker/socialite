@@ -62,7 +62,10 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
 
     public function parseAccessToken($body)
     {
-        return json_decode($body, true);
+        return array_merge(
+            json_decode($body, true),
+            ['created_at' => time()]
+        );
     }
 
     /**
