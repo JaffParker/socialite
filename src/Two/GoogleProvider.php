@@ -76,7 +76,6 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
             parent::getTokenFields($code),
             [
                 'grant_type' => 'authorization_code',
-                'access_type' => 'offline',
             ]
         );
     }
