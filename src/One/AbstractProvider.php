@@ -93,7 +93,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
-        if (!empty($this->token->getIdentifier()) && !empty($this->token->getSecret())) {
+        if (!empty($this->token)) {
             return $this->token;
         }
 
