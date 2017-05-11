@@ -4,6 +4,7 @@ namespace Laravel\Socialite\One;
 
 use Illuminate\Http\Request;
 use InvalidArgumentException;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Server\Server;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Contracts\Provider as ProviderContract;
@@ -23,6 +24,11 @@ abstract class AbstractProvider implements ProviderContract
      * @var Server
      */
     protected $server;
+
+    /**
+     * @var TokenCredentials
+     */
+    protected $token;
 
     /**
      * Create a new provider instance.
@@ -73,6 +79,13 @@ abstract class AbstractProvider implements ProviderContract
         ]);
     }
 
+    public function setAccessToken($token, $tokenSecret = '')
+    {
+        $this->token = new TokenCredentials();
+        $this->token->setIdentifier($token);
+        $this->token->setSecret($tokenSecret);
+    }
+
     /**
      * Get the token credentials for the request.
      *
@@ -80,6 +93,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
+        if (!empty($this->token->getIdentifier()) && !empty($this->token->getSecret())) {
+            return $this->token;
+        }
+
         $temp = $this->request->getSession()->get('oauth.temp');
 
         return $this->server->getTokenCredentials(

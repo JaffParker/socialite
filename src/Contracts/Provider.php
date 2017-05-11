@@ -17,4 +17,11 @@ interface Provider
      * @return \Laravel\Socialite\Contracts\User
      */
     public function user();
+
+    /**
+     * @param string $token
+     * @param string $tokenSecret
+     * @return
+     */
+    public function setAccessToken($token, $tokenSecret = '');
 }

@@ -74,6 +74,11 @@ abstract class AbstractProvider implements ProviderContract
     protected $stateless = false;
 
     /**
+     * @var string
+     */
+    protected $token = '';
+
+    /**
      * Create a new provider instance.
      *
      * @param  Request  $request
@@ -214,6 +219,11 @@ abstract class AbstractProvider implements ProviderContract
         return ! (strlen($state) > 0 && $this->request->input('state') === $state);
     }
 
+    public function setAccessToken($token, $tokenSecret = '')
+    {
+        $this->token = $token;
+    }
+
     /**
      * Get the access token for the given code.
      *
@@ -222,6 +232,10 @@ abstract class AbstractProvider implements ProviderContract
      */
     public function getAccessToken($code)
     {
+        if (!empty($this->token)) {
+            return $this->token;
+        }
+
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
