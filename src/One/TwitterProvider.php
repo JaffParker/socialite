@@ -11,7 +11,7 @@ class TwitterProvider extends AbstractProvider
      */
     public function user()
     {
-        if (! $this->hasNecessaryVerifier()) {
+        if (empty($this->token) && !$this->hasNecessaryVerifier()) {
             throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
 
