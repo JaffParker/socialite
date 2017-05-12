@@ -93,6 +93,10 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessToken($code)
     {
+        if (!empty($this->token)) {
+            return $this->token;
+        }
+
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [

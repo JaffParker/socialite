@@ -63,6 +63,10 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessToken($code)
     {
+        if (!empty($this->token)) {
+            return $this->token;
+        }
+
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             'query' => $this->getTokenFields($code),
         ]);
